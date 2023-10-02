@@ -1,4 +1,4 @@
-const FeedBack = require("../db/models/feedBack");
+const FeedBack = require("../db/models/FeedBack");
 
 class FeedbackActions_{
 

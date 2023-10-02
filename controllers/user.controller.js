@@ -16,14 +16,6 @@ class User_{
                 
             }
             
-            // // verifying collage email address
-            // if(!email.includes("@iiitdwd.ac.in")){
-                
-            //     console.log("test");
-            //     res.status(204).send({
-            //         body:"collage email id not used "
-            //     })
-            // }
             
         } catch (error) {
             
@@ -38,26 +30,28 @@ class User_{
 
     async signup( req, res){
 
-        const {email,name, profilePic, roomNo, contact} = req.body;
+        const {email,name, profilePic} = req.body;
         try {
 
             const userExist = await User.findOne({email});
             if(userExist) {
                 
-                res.status(401).send({
-                    msg:"already have an account"
+                res.status(200).send({
+                    msg:"already have an account ,login successfull",
+                    data:userExist
                 })
+                return;
             }
-            const newUser = await User.create({email,name, profilePic, roomNo, contact});
+            const newUser = await User.create({email,name, profilePic});
 
-            res.send({
+            res.status(201).send({
                 success:true,
                 msg:"user created successfully",
                 data:newUser
             })
 
         } catch (error) {
-            
+            res.status(402).send("error in signing in");
         }
     }
 
@@ -68,7 +62,8 @@ class User_{
             
             const user = await User.findOne({_id:id});
             console.log(user);
-            res.send(user)
+            if(user) res.send(user);
+            else res.status(401).send("error , unauthrised user");
             
         } catch (error) {
             res.status(401).send({
